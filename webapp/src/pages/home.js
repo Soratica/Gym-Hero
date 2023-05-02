@@ -5,13 +5,19 @@ import { useWorkoutsContext } from '../hooks/use_workouts_context'
 import WorkoutDetails from '../components/workout_details'
 import WorkoutForm from '../components/workout_form'
 
+// Bootstrap
+import Container from 'react-bootstrap/esm/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Stack from 'react-bootstrap/Stack';
+
 const Home = () => {
 
   const {workouts, dispatch} = useWorkoutsContext()
 
   useEffect(() => {
     const fetchWorkouts = async () => {
-      const response = await fetch('/api/workouts')
+      const response = await fetch('/api/gymhero')
       const json = await response.json()
 
       if (response.ok) {
@@ -23,14 +29,23 @@ const Home = () => {
   }, [dispatch]);
 
   return (
-    <div className="home">
-      <div className='workouts'>
-        {workouts && workouts.map((workout) => (
-          <WorkoutDetails key={workout._id} workout={workout} />
-        ))}
-      </div>
-      <WorkoutForm />
-    </div>
+    <Container className="mt-5" fluid="sm">
+      <Row>
+        <Col sm={8}>
+          <Stack gap={3}>
+            {workouts && workouts.map((workout) => (
+                <WorkoutDetails key={workout._id} workout={workout} />
+              ))}
+          </Stack>
+
+        </Col>
+        <Col>
+          <WorkoutForm />
+        </Col>
+      </Row>
+        
+    </Container>
+
   );
 }
 
